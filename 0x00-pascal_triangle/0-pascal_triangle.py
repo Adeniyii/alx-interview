@@ -1,3 +1,9 @@
+#!/usr/bin/python3
+"""
+0-pascal_triangle implements a simple pascal_triangle function.
+"""
+
+
 def pascal_triangle(n):
     """Implements a simple pascals triangle"""
     if n <= 0:
