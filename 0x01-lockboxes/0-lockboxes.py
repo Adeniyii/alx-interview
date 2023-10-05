@@ -21,6 +21,8 @@ Write a method that determines if all the boxes can be opened.
 
 def canUnlockAll(boxes):
     """checks if all boxes are reachable."""
+    if (not isinstance(boxes, list)):
+        return False
     seen = [False for _ in range(len(boxes))]
     seen[0] = True
 
