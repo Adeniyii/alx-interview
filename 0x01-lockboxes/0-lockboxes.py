@@ -28,7 +28,7 @@ def canUnlockAll(boxes):
     seen[0] = True
 
     useDFS(boxes, seen, 0)
-    # TODO: useBFS()
+    # useBFS(boxes, seen)
 
     # the `seen` array tracks all the visited nodes. we can then see which
     # nodes were unvisited by inspecting for False values. However, for this
@@ -36,11 +36,32 @@ def canUnlockAll(boxes):
     return all(seen)
 
 
-def useDFS(boxes, seen, currentBox):
+def useBFS(boxes, seen):
+    for i, box in enumerate(boxes):
+        for key in box:
+            if (isinstance(key, int) is not True):
+                continue
+
+            # guard against out-of-bounds array access
+            if (key >= len(boxes)):
+                continue
+
+            if (i == key):
+                continue
+
+            seen[key] = True
+
+
+def useDFS(boxes, seen, currentBoxIdx):
     """uses recursion to visit nodes depth-first
         and populate the seen array as each new node is visited.
     """
-    for key in boxes[currentBox]:
+    currentBox = boxes[currentBoxIdx]
+
+    if (isinstance(currentBox, list) is not True):
+        return
+
+    for key in currentBox:
         if (isinstance(key, int) is not True):
             continue
 
