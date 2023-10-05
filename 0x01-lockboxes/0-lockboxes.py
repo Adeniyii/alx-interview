@@ -23,6 +23,7 @@ def canUnlockAll(boxes):
     """checks if all boxes are reachable."""
     if (not isinstance(boxes, list)):
         return False
+
     seen = [False for _ in range(len(boxes))]
     seen[0] = True
 
@@ -40,6 +41,10 @@ def useDFS(boxes, seen, currentBox):
         and populate the seen array as each new node is visited.
     """
     for box in boxes[currentBox]:
+        # guard against out-of-bounds array access
+        if (box >= len(boxes)):
+            continue
+
         if (not seen[box]):
             seen[box] = True
             useDFS(boxes, seen, box)
