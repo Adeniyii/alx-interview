@@ -45,6 +45,8 @@ def useDFS(boxes, seen, currentBox):
         if (box >= len(boxes)):
             continue
 
-        if (not seen[box]):
-            seen[box] = True
-            useDFS(boxes, seen, box)
+        if (seen[box]):
+            continue
+
+        seen[box] = True
+        useDFS(boxes, seen, box)
