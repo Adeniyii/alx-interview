@@ -12,10 +12,6 @@ def pascal_triangle(n):
     i = 1
     out = [[1]]
 
-    if n >= 2:
-        out.append([1, 1])
-        i += 1
-
     while i < n:
         tmp = []
         curr = out[-1]
