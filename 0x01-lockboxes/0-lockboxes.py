@@ -30,7 +30,7 @@ def canUnlockAll(boxes):
     useDFS(boxes, seen, 0)
     # TODO: useBFS()
 
-    # the `seen` array tracks all the visited nodes we can then see which
+    # the `seen` array tracks all the visited nodes. we can then see which
     # nodes were unvisited by inspecting for False values. However, for this
     # task we only need to know if any node was unreached, which is easier.
     return all(seen)
