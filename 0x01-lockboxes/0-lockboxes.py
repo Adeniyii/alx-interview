@@ -40,13 +40,16 @@ def useDFS(boxes, seen, currentBox):
     """uses recursion to visit nodes depth-first
         and populate the seen array as each new node is visited.
     """
-    for box in boxes[currentBox]:
+    for key in boxes[currentBox]:
+        if (isinstance(key, int) is not True):
+            continue
+
         # guard against out-of-bounds array access
-        if (box >= len(boxes)):
+        if (key >= len(boxes)):
             continue
 
-        if (seen[box]):
+        if (seen[key]):
             continue
 
-        seen[box] = True
-        useDFS(boxes, seen, box)
+        seen[key] = True
+        useDFS(boxes, seen, key)
