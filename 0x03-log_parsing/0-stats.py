@@ -35,8 +35,10 @@ def main():
 
 def print_result():
     print("File size:", totalFileSize)
-    for k, v in out.items():
-        print("{}: {}".format(k, v))
+    keys = list(out.keys())
+    keys.sort()
+    for k in keys:
+        print("{}: {}".format(k, out[k]))
 
 
 def sigint_handler(sig, frame):
