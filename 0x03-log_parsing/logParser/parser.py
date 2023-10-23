@@ -20,6 +20,7 @@ def newParser(ll: Lexer):
 
 class Parser:
     """"""
+
     def __init__(self, lexer: Lexer):
         self.ll = lexer
         self.currTok = Token()
@@ -34,7 +35,7 @@ class Parser:
         """Central Parsing Unit."""
         out = {}
 
-        while self.currTok.type is not TokenType.EOF:
+        while not self.currTokenIs(TokenType.EOF):
             if self.parseStatement(out):
                 return out
             else:
@@ -42,10 +43,8 @@ class Parser:
 
     def parseStatement(self, out):
         """"""
-        if not self.parseIP():
-            return False
-        if not self.parseHyphenSep():
-            return False
+        self.parseIP()
+
         if not self.parseDateTime():
             return False
 
@@ -76,28 +75,12 @@ class Parser:
 
     def parseIP(self):
         """"""
-        if not self.currTokenIs(TokenType.INT):
-            return False
-        for _ in range(3):
-            res = self.eatIP()
-            if not res:
-                return False
+        while not self.currTokenIs(TokenType.HYPHEN) and not\
+                self.currTokenIs(TokenType.EOF):
+            self.readToken()
 
-        return True
-
-    def parseHyphenSep(self):
-        """"""
-        if not self.expectPeek(TokenType.SPACE):
-            return False
-        self.readToken()
-
-        if not self.expectPeek(TokenType.HYPHEN):
-            return False
-        self.readToken()
-
-        if not self.expectPeek(TokenType.SPACE):
-            return False
-        self.readToken()
+        if self.expectPeek(TokenType.SPACE):
+            self.readToken()
 
         return True
 
@@ -142,12 +125,14 @@ class Parser:
         """"""
         allowed_statuses = [200, 301, 400, 401, 403, 404, 405, 500]
         if not self.expectPeek(TokenType.INT):
-            return False
-        self.readToken()
-        if int(self.currTok.literal) not in allowed_statuses:
-            return False
+            self.readToken()
+            out["status"] = "nil"
+            return True
 
-        out["status"] = self.currTok.literal
+        self.readToken()
+        if int(self.currTok.literal) in allowed_statuses:
+            out["status"] = self.currTok.literal
+
         return True
 
     def parseFileSize(self, out):
@@ -205,18 +190,6 @@ class Parser:
             return False
         self.readToken()
 
-        if not self.expectPeek(TokenType.PERIOD):
-            return False
-        self.readToken()
-
-        if not self.expectPeek(TokenType.INT):
-            return False
-        self.readToken()
-
-        return True
-
-    def eatIP(self):
-        """Parse an IP address."""
         if not self.expectPeek(TokenType.PERIOD):
             return False
         self.readToken()

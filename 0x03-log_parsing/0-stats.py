@@ -41,6 +41,8 @@ def print_result():
     keys = list(out.keys())
     keys.sort()
     for k in keys:
+        if k == "nil":
+            continue
         print("{}: {}".format(k, out[k]))
 
 
