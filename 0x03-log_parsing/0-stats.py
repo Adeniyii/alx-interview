@@ -18,14 +18,15 @@ def main():
     for line in sys.stdin:
         ll = newLexer(line)
         pp = newParser(ll)
-
         result = pp.parseProgram()
-        totalFileSize += result['filesize']
-        status = result['status']
-        if status in out.keys():
-            out[status] = out[status] + 1
-        else:
-            out[status] = 1
+
+        if result:
+            totalFileSize += result['filesize']
+            status = result['status']
+            if status in out.keys():
+                out[status] = out[status] + 1
+            else:
+                out[status] = 1
 
         lines += 1
 
