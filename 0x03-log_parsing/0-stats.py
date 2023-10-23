@@ -32,6 +32,8 @@ def main():
         if lines != 0 and lines % 10 == 0:
             print_result()
 
+    print_result()
+
 
 def print_result():
     print("File size:", totalFileSize)
