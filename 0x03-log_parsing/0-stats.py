@@ -1,5 +1,6 @@
-#!/usr/bin/env python3
-""""""
+#!/usr/bin/python3
+"""Over engineered package which parses log
+files and provides useful metrics."""
 import sys
 import signal
 from logParser.lexer import newLexer
