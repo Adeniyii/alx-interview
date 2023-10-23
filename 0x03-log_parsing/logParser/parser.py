@@ -130,11 +130,13 @@ class Parser:
         self.readToken()
         self.readToken()
 
-        # skipping over http header for now
+        lit = ""
+
         while self.currTok.type is not TokenType.QUOTE:
+            lit += self.currTok.literal
             self.readToken()
 
-        return True
+        return lit == "GET /projects/260 HTTP/1.1"
 
     def parseStatus(self, out):
         """"""
@@ -226,15 +228,16 @@ class Parser:
         return True
 
     def expectPeek(self, tt: TokenType):
-        """"""
+        """Check if next token is a given TokenType
+        without advancing the internal state"""
         if self.nextTokenIs(tt):
             return True
         return False
 
     def nextTokenIs(self, tt: TokenType):
-        """"""
+        """Check next TokenType."""
         return self.nextTok.type is tt
 
     def currTokenIs(self, tt: TokenType):
-        """"""
+        """Check current TokenType."""
         return self.currTok.type is tt
