@@ -5,15 +5,34 @@ import r from 'request';
 const baseURL = 'https://swapi-api.alx-tools.com/api/';
 const filmID = argv[2];
 
-r(baseURL + 'films/' + filmID, {}, (err, _, body) => {
-  if (err) {
-    console.log(err.message);
-    exit(1);
-  }
-  const characters = JSON.parse(body).characters;
-  for (const ch of characters) {
-    r(ch, {}, (_, __, bd) => {
-      console.log(JSON.parse(bd).name);
+async function doFetch (urls) {
+  const reqQueue = [];
+
+  for (const url of urls) {
+    const f = new Promise((resolve, reject) => {
+      r(url, {}, (err, _, bd) => {
+        if (err) {
+          reject(err.message);
+        }
+        resolve(JSON.parse(bd).name);
+      });
     });
+    reqQueue.push(f);
   }
-});
+  return Promise.allSettled(reqQueue);
+}
+
+function main () {
+  r(baseURL + 'films/' + filmID, {}, (err, _, body) => {
+    if (err) {
+      console.log(err.message);
+      exit(1);
+    }
+    const characters = JSON.parse(body).characters;
+    doFetch(characters).then(v => {
+      v.forEach(vv => vv.status === 'fulfilled' && console.log(vv.value));
+    });
+  });
+}
+
+main();
