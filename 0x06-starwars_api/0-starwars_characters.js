@@ -1,11 +1,11 @@
 #!/usr/bin/node
-const { argv, exit } = require("process")
-const r = require("request")
+const { argv, exit } = require('process');
+const r = require('request');
 
 const baseURL = 'https://swapi-api.alx-tools.com/api/';
 const filmID = argv[2];
 
-async function doFetch(urls) {
+async function doFetch (urls) {
   const reqQueue = [];
 
   for (const url of urls) {
@@ -22,7 +22,7 @@ async function doFetch(urls) {
   return Promise.allSettled(reqQueue);
 }
 
-function main() {
+function main () {
   r(baseURL + 'films/' + filmID, {}, (err, _, body) => {
     if (err) {
       console.log(err.message);
